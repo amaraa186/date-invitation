@@ -1,95 +1,98 @@
-import Image from 'next/image'
+'use client'
 import styles from './page.module.css'
+import { useEffect, useState } from 'react';
+import { useMediaQuery } from "react-responsive";
+import { TapArea, Box, Mask, Image } from 'gestalt';
+import { Typewriter } from 'react-simple-typewriter'
+
+import 'gestalt/dist/gestalt.css';
 
 export default function Home() {
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const [picture, setPicture] = useState(false)
+
+  const onClickCamera = () => {
+    setPicture(!picture)
+  }
+
+  if(!isTabletOrMobile)
+    return (<></>)
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className={styles.main}>
+      <Box position="relative" display='flex' direction="column" height="100vh" width="100%" justifyContent='center'>
+        <div className={styles.background}>
+          <img src='https://res.cloudinary.com/urlan/image/upload/v1690208859/background_pdzba9.png' height="100%"/>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+        <p className={styles.cheese}>
+          <Typewriter
+            cursor
+            cursorBlinking
+            delaySpeed={1000}
+            deleteSpeed={30}
+            loop={0}
+            typeSpeed={95}
+            words={["Say Cheeeeeese!"]}
+          />
+        </p>
+        <div style={{height: 15}} />
+        <Box display="flex" justifyContent="center" position="relative">
+          <Box width={250}>
+            <TapArea
+              onTap={onClickCamera}
+            >
+                <Mask width={250}>
+                  <Image
+                    alt="Camera"
+                    naturalHeight={1}
+                    naturalWidth={1}
+                    src="https://res.cloudinary.com/urlan/image/upload/v1690208859/Camera_nq02gj.png"
+                  />
+                </Mask>
+              </TapArea>
+            </Box>
+          {
+            picture && (
+              <Box position="absolute" top display='flex' alignItems='center' width="100%" direction='column'>
+                <Box height={170} width={1} />
+                <Mask width={180}>
+                  <Image alt="image"
+                      naturalHeight={1}
+                      naturalWidth={1}
+                      src="https://res.cloudinary.com/urlan/image/upload/v1690214006/jaaz_hfgfuw.png" />
+                </Mask>
+              </Box>
+            )
+          }
+        </Box>
+      </Box>
+      {
+        picture && (
+          <Box display='flex' direction="column" alignItems='center'>
+            <Box height={50} />
+              <Mask width={288}>
+                <Image 
+                  alt="image"
+                  naturalHeight={1}
+                  naturalWidth={1}
+                  src="https://res.cloudinary.com/urlan/image/upload/v1690214800/poster_ezmxui.png"
+                />
+              </Mask>
+              <Box>
+                <TapArea onTap={() => {}}>
+                  <Mask width={170}>
+                    <Image 
+                      alt="image"
+                      naturalHeight={1}
+                      naturalWidth={1}
+                      src="https://res.cloudinary.com/urlan/image/upload/v1690214800/button_wneiby.png"
+                    />
+                  </Mask>
+                </TapArea>
+              </Box>
+          </Box>
+        )
+      }
+    </div>
   )
 }
