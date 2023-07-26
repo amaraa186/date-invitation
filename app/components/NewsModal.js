@@ -68,7 +68,7 @@ const NewsModal = (props) => {
                 </p>
               </Box>
               <Box paddingY={3}>
-                <Text color="subtle" size="500">
+                <Text color="subtle" size={isMobile ? 300 : 500}>
                   7-р сарын 30 ны өдөр Амундагийн төрсөн өдөр тохиож байгаа тул
                   Амундага таныг болзоонд урьж байна.
                 </Text>
