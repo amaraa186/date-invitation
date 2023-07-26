@@ -4,7 +4,7 @@ import styles from "../page.module.css";
 import { useMediaQuery } from "react-responsive";
 
 const WeatherModal = (props) => {
-  const isMobile = useMediaQuery({ query: "(max-width: 390px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 500px)" });
   const { onShowWeather = () => {} } = props;
 
   return (
@@ -19,20 +19,26 @@ const WeatherModal = (props) => {
           position: "fixed",
         }}
       >
-        <div className={styles.background}>
-          <img
+        <Box height="100vh">
+          <Image
+            alt="cover"
             src={
               isMobile
                 ? "https://res.cloudinary.com/urlan/image/upload/v1690277250/Group_27_xeugcs.svg"
                 : "https://res.cloudinary.com/urlan/image/upload/v1690282988/Group_28_fwderw.png"
             }
-            height="100%"
-            width="100%"
+            naturalHeight={1}
+            naturalWidth={1}
+            fit="cover"
           />
-        </div>
+        </Box>
         <Box
-          height="100vh"
+          position="absolute"
+          height="100%"
+          width="100%"
+          top
           display="flex"
+          direction="column"
           justifyContent="center"
           alignItems="center"
         >
@@ -91,7 +97,7 @@ const WeatherModal = (props) => {
             </Box>
             <Box position="absolute" top right>
               <TapArea onTap={onShowWeather}>
-                <Box width={70} height={70} />
+                <Box width={isMobile ? 40 : 70} height={isMobile ? 40 : 70} />
               </TapArea>
             </Box>
             <Box

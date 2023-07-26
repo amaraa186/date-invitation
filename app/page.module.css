@@ -3,7 +3,8 @@
 }
 
 .background {
-  position: absolute;
+  position: fixed;
+  background:#474A50;
 }
 
 .cheese {

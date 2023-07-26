@@ -9,7 +9,6 @@ const StartSection = (props) => {
   if (picture)
     return (
       <Box display="flex" direction="column" alignItems="center">
-        <Box height={50} />
         <Mask width={isMobile ? 288 : 338}>
           <Image
             alt="image"

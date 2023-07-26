@@ -1,16 +1,23 @@
+import { useState } from "react";
 import { TapArea, Box, Mask, Image } from "gestalt";
 import { Typewriter } from "react-simple-typewriter";
 import { motion } from "framer-motion";
 import styles from "../page.module.css";
 import { useMediaQuery } from "react-responsive";
+import ImageModal from "../components/ImageModal";
 
 const CameraSection = (props) => {
-  const isMobile = useMediaQuery({ query: "(max-width: 390px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 500px)" });
+  const [imageModal, setImageModal] = useState(false);
 
   const { onClickCamera = () => {}, picture } = props;
 
+  const onImageClick = () => {
+    setImageModal(!imageModal);
+  };
+
   return (
-    <Box position="relative">
+    <Box position="relative" top bottom right left height="100vh">
       <motion.div
         initial={{ opacity: 0, scale: 1 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -20,24 +27,25 @@ const CameraSection = (props) => {
           ease: [0, 0.71, 0.2, 1.01],
         }}
       >
-        <div className={styles.background}>
-          <img
-            src={
-              isMobile
-                ? "https://res.cloudinary.com/urlan/image/upload/v1690258944/back_h7ozvq.svg"
-                : "https://res.cloudinary.com/urlan/image/upload/v1690263209/Group_18_l3hkft.svg"
-            }
-            height="100%"
-            width="100%"
+        <Box height="100vh">
+          <Image
+            alt="cover"
+            src="https://res.cloudinary.com/urlan/image/upload/v1690258944/back_h7ozvq.svg"
+            naturalHeight={1}
+            naturalWidth={1}
+            fit="cover"
           />
-        </div>
+        </Box>
       </motion.div>
-
       <Box
+        position="absolute"
+        height="100%"
+        width="100%"
+        top
         display="flex"
         direction="column"
-        height="100vh"
         justifyContent="center"
+        alignItems="center"
       >
         <p
           className={styles.cheese}
@@ -56,7 +64,7 @@ const CameraSection = (props) => {
           />
         </p>
 
-        <div style={{ height: 15 }} />
+        <div style={{ height: 10 }} />
 
         <Box display="flex" justifyContent="center" position="relative">
           <motion.div
@@ -70,14 +78,14 @@ const CameraSection = (props) => {
           >
             <Box width={isMobile ? 250 : 300}>
               <TapArea onTap={onClickCamera}>
-                <Mask width={isMobile ? 250 : 300}>
-                  <Image
-                    alt="Camera"
-                    naturalHeight={1}
-                    naturalWidth={1}
-                    src="https://res.cloudinary.com/urlan/image/upload/v1690208859/Camera_nq02gj.png"
-                  />
-                </Mask>
+                {/* <Mask width={isMobile ? 100 : 300}> */}
+                <Image
+                  alt="Camera"
+                  naturalHeight={1}
+                  naturalWidth={1}
+                  src="https://res.cloudinary.com/urlan/image/upload/v1690208859/Camera_nq02gj.png"
+                />
+                {/* </Mask> */}
               </TapArea>
             </Box>
           </motion.div>
@@ -91,18 +99,26 @@ const CameraSection = (props) => {
               direction="column"
             >
               <Box height={isMobile ? 170 : 205} width="100%" />
-              <Mask width={isMobile ? 180 : 230} height={isMobile ? 200 : 260}>
-                <Image
-                  alt="image"
-                  naturalHeight={1}
-                  naturalWidth={1}
-                  src="https://res.cloudinary.com/urlan/image/upload/v1690286453/Group_29_yia9vw.png"
-                />
-              </Mask>
+              <Box>
+                <TapArea onTap={onImageClick}>
+                  <Mask
+                    width={isMobile ? 180 : 230}
+                    height={isMobile ? 200 : 260}
+                  >
+                    <Image
+                      alt="image"
+                      naturalHeight={1}
+                      naturalWidth={1}
+                      src="https://res.cloudinary.com/urlan/image/upload/v1690286453/Group_29_yia9vw.png"
+                    />
+                  </Mask>
+                </TapArea>
+              </Box>
             </Box>
           )}
         </Box>
       </Box>
+      {imageModal && <ImageModal onImageClick={onImageClick} />}
     </Box>
   );
 };

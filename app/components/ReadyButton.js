@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
 
 const ReadyButton = (props) => {
-  const isMobile = useMediaQuery({ query: "(max-width: 390px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 500px)" });
   const { onClick = () => {} } = props;
 
   return (

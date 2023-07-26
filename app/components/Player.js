@@ -4,28 +4,86 @@ import { useMediaQuery } from "react-responsive";
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const Player = () => {
-  const isMobile = useMediaQuery({ query: "(max-width: 390px)" });
-  const [music, setMusic] = useState({
+const musics = [
+  {
     src: "https://res.cloudinary.com/urlan/video/upload/v1690352242/airdrop/test_vpntce.mp3",
     name: "Make You Mine",
     minute: 3,
     second: 29,
-  });
+  },
+  {
+    src: "https://res.cloudinary.com/urlan/video/upload/v1690389865/TigerFish_osecck.mp3",
+    name: "Ungut Yrtunts",
+    minute: 2,
+    second: 24,
+  },
+  {
+    src: "https://docs.google.com/uc?export=download&id=1oTgjE-wnJ49RSMoptyw3pu2dV0SCK_NG",
+    name: "Happy Birthday",
+    minute: 0,
+    second: 46,
+  },
+  {
+    src: "https://docs.google.com/uc?export=download&id=11sXVlP4uHoFamjympy3L5CVRmkLIrKI4",
+    name: "Howl's Moving Castle",
+    minute: 5,
+    second: 8,
+  },
+  {
+    src: "https://docs.google.com/uc?export=download&id=1oLqlsRZ4Hwu5fXxg9UhUBCp9IqFc7kco",
+    name: "Kiki's Delivery Service",
+    minute: 3,
+    second: 56,
+  },
+  {
+    src: "https://docs.google.com/uc?export=download&id=1NoIangU_3BJdzWy2DkhgJl3hm6uXuGtb",
+    name: "Ponyo",
+    minute: 2,
+    second: 42,
+  },
+  {
+    src: "https://docs.google.com/uc?export=download&id=1sKI1CdU5xQOCdzTeZbuKXva-ehMnM9Kd",
+    name: "Spirited Away",
+    minute: 3,
+    second: 38,
+  },
+  {
+    src: "https://docs.google.com/uc?export=download&id=1SdmySYddq2NBfsLVEyXMPtwhCrgX8hgo",
+    name: "Spirited Away",
+    minute: 5,
+    second: 39,
+  },
+  {
+    src: "https://docs.google.com/uc?export=download&id=1xud9pDs85Z-LxLbRx442WBGoLJe5OqCY",
+    name: "Tonari no Totoro",
+    minute: 3,
+    second: 41,
+  },
+];
+
+const Player = () => {
+  const isMobile = useMediaQuery({ query: "(max-width: 500px)" });
+  const [music, setMusic] = useState(musics[0]);
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
+  const [isFirst, setisFirst] = useState(true);
 
   useEffect(() => {
-    // if (isFirst) return;
+    if (isFirst) return;
+    pauseAudio();
+    playAudio();
+  }, [currentAudioIndex, music]);
 
+  useEffect(() => {
     const audioElement = audioRef.current;
-    audioElement.addEventListener("ended", onNext);
+    audioElement.addEventListener("ended", playNext);
 
     return () => {
-      audioElement.removeEventListener("ended", onNext);
+      audioElement.removeEventListener("ended", playNext);
     };
-  }, [currentTime]);
+  }, [currentAudioIndex]);
 
   const audioRef = useRef(null);
 
@@ -45,29 +103,43 @@ const Player = () => {
 
   const playAudio = () => {
     const audioElement = audioRef.current;
-    audioElement.src = music.src;
+    audioElement.src = musics[currentAudioIndex].src;
     audioElement.currentTime = currentTime;
     audioElement.play();
     setPlaying(true);
+    setisFirst(false);
   };
 
   const pauseAudio = () => {
     const audioElement = audioRef.current;
     audioElement.pause();
     setCurrentTime(audioElement.currentTime);
+    setisFirst(false);
     setPlaying(false);
   };
 
-  const onNext = () => {
+  const playNext = () => {
+    setCurrentAudioIndex((currentAudioIndex + 1) % musics.length);
+    setMusic(musics[(currentAudioIndex + 1) % musics.length]);
+    setisFirst(false);
     setCurrentTime(0);
     setProgress(0);
-    playAudio();
+  };
+
+  const playPrevious = () => {
+    setCurrentAudioIndex(
+      (currentAudioIndex - 1 + musics.length) % musics.length
+    );
+    setMusic(musics[(currentAudioIndex - 1 + musics.length) % musics.length]);
+    setCurrentTime(0);
+    setisFirst(false);
+    setProgress(0);
   };
 
   return (
     <Box display="flex" alignItems="center" direction="column">
       <Box position="relative">
-        <Mask width={isMobile ? 321 : 600}>
+        <Mask width={isMobile ? 330 : 600}>
           <Image
             alt="player"
             src="https://res.cloudinary.com/urlan/image/upload/v1690286557/player_ifudzc.png"
@@ -112,7 +184,7 @@ const Player = () => {
           <Box height={isMobile ? 15 : 30} />
 
           <Flex gap={isMobile ? 4 : 6} alignItems="center">
-            <TapArea onTap={onNext}>
+            <TapArea onTap={playPrevious}>
               <motion.div whileTap={{ scale: 0.9 }}>
                 <Box width={isMobile ? 25 : 37}>
                   <Image
@@ -140,7 +212,7 @@ const Player = () => {
                 </Box>
               </motion.div>
             </TapArea>
-            <TapArea onTap={onNext}>
+            <TapArea onTap={playNext}>
               <motion.div whileTap={{ scale: 0.9 }}>
                 <Box width={isMobile ? 25 : 37}>
                   <Image

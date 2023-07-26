@@ -11,7 +11,7 @@ import FinalModal from "../../components/FinalModal";
 
 const HomeView = () => {
   const isTablet = useMediaQuery({ query: "(max-width: 1224px)" });
-  const isMobile = useMediaQuery({ query: "(max-width: 390px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 500px)" });
 
   const [showWeather, setShowWeather] = useState(false);
   const [showNews, setShowNews] = useState(false);
@@ -38,18 +38,27 @@ const HomeView = () => {
   if (isMobile || isTablet)
     return (
       <Box position="relative">
-        <div className={styles.background}>
-          <img
+        <Box height="100vh">
+          <Image
+            alt="cover"
             src={
               isMobile
                 ? "https://res.cloudinary.com/urlan/image/upload/v1690277250/Group_27_xeugcs.svg"
                 : "https://res.cloudinary.com/urlan/image/upload/v1690282988/Group_28_fwderw.png"
             }
-            height="100%"
-            width="100%"
+            naturalHeight={1}
+            naturalWidth={1}
+            fit="cover"
           />
-        </div>
-        <Box height="100vh">
+        </Box>
+        <Box
+          height="100vh"
+          position="absolute"
+          width="100%"
+          top
+          display="flex"
+          direction="column"
+        >
           <Box height={76} />
           <Flex justifyContent="around" alignItems="center" gap={2}>
             <TapArea onTap={onShowWeather}>

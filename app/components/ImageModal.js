@@ -3,15 +3,30 @@ import { motion } from "framer-motion";
 import styles from "../page.module.css";
 import { useMediaQuery } from "react-responsive";
 
-const FinalModal = (props) => {
+const ImageModal = (props) => {
   const isMobile = useMediaQuery({ query: "(max-width: 500px)" });
-  const { onClick = () => {} } = props;
+  const { onImageClick = () => {} } = props;
+
+  const onDownloadImage = async () => {
+    const image = await fetch(
+      "https://res.cloudinary.com/urlan/image/upload/v1690386658/image00001_1_1_1_lcacy3.png"
+    );
+    const imageBlog = await image.blob();
+    const imageURL = URL.createObjectURL(imageBlog);
+
+    const link = document.createElement("a");
+    link.href = imageURL;
+    link.download = "HB.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <Layer>
       <div
         style={{
-          background: "#FFB1B1",
+          backgroundColor: "#FFB1B1",
           top: 0,
           bottom: 0,
           left: 0,
@@ -42,32 +57,47 @@ const FinalModal = (props) => {
           justifyContent="center"
           alignItems="center"
         >
-          <Box
-            width={isMobile ? 350 : 600}
-            height={isMobile ? 170 : 290}
-            position="relative"
-          >
-            <Box>
-              <Mask width={isMobile ? 350 : 600} height={isMobile ? 170 : 290}>
+          <Box width={350} position="relative" height={462}>
+            <Box width={350}>
+              <Image
+                alt="image"
+                src="https://res.cloudinary.com/urlan/image/upload/v1690385067/Group_31_mbqtky.svg"
+                naturalHeight={1}
+                naturalWidth={1}
+              />
+            </Box>
+            <Box
+              position="absolute"
+              display="flex"
+              direction="column"
+              height="100%"
+              width="100%"
+              top
+            >
+              <Box width="100%" display="flex" justifyContent="end">
+                <Box>
+                  <TapArea onTap={onImageClick}>
+                    <Box width={40} height={40} />
+                  </TapArea>
+                </Box>
+              </Box>
+              <Box
+                height="100%"
+                marginEnd={8}
+                marginStart={2}
+                marginTop={2}
+                marginBottom={4}
+              >
                 <Image
+                  alt="image"
+                  src="https://res.cloudinary.com/urlan/image/upload/v1690386658/image00001_1_1_1_lcacy3.png"
                   naturalHeight={1}
                   naturalWidth={1}
-                  src="https://res.cloudinary.com/urlan/image/upload/v1690286557/player_ifudzc.png"
+                  fit="cover"
                 />
-              </Mask>
-            </Box>
-            <Box position="absolute" top width="100%" height="100%" padding={8}>
-              <Box paddingY={2}>
-                <p
-                  className={styles.button}
-                  style={{ fontSize: isMobile ? 22 : 38 }}
-                >
-                  Urilga huleen avsand bayarlalaa. Udahgui uulzay brodiii ❤️❤️❤️
-                </p>
               </Box>
-              {!isMobile && <Box height={25} />}
-              <TapArea onTap={onClick}>
-                <Box padding={2}>
+              <TapArea onTap={onDownloadImage}>
+                <Box marginStart={2} marginEnd={8} marginBottom={6}>
                   <motion.div whileTap={{ scale: 0.9 }}>
                     <div
                       style={{
@@ -84,7 +114,7 @@ const FinalModal = (props) => {
                         className={styles.button}
                         style={{ fontSize: isMobile ? 22 : 42 }}
                       >
-                        ❤️
+                        Download
                       </p>
                     </div>
                   </motion.div>
@@ -98,4 +128,4 @@ const FinalModal = (props) => {
   );
 };
 
-export default FinalModal;
+export default ImageModal;
