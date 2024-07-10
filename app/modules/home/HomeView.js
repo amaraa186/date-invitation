@@ -1,110 +1,49 @@
-import { useState } from "react";
-import { Box, Flex, Mask, Image, TapArea } from "gestalt";
-import styles from "../../page.module.css";
+"use client";
+
 import { useMediaQuery } from "react-responsive";
-import Player from "../../components/Player";
-import ReadyButton from "../../components/ReadyButton";
-import { motion } from "framer-motion";
-import WeatherModal from "../../components/WeatherModal";
-import NewsModal from "../../components/NewsModal";
-import FinalModal from "../../components/FinalModal";
+import { useRouter } from "next/router";
+import { Box, Image } from "gestalt";
+import Weather from "../../components/Weather";
+import Calendar from "../../components/Calendar";
 
 const HomeView = () => {
   const isTablet = useMediaQuery({ query: "(max-width: 1224px)" });
   const isMobile = useMediaQuery({ query: "(max-width: 500px)" });
-
-  const [showWeather, setShowWeather] = useState(false);
-  const [showNews, setShowNews] = useState(false);
-  const [showFinal, setShowFinal] = useState(false);
-  const [checkWeather, setCheckWeather] = useState(false);
-  const [checkNews, setCheckNews] = useState(false);
-
-  const onShowWeather = () => {
-    setShowWeather(!showWeather);
-
-    if (showWeather) setCheckWeather(true);
-  };
-
-  const onShowNews = () => {
-    setShowNews(!showNews);
-
-    if (showNews) setCheckNews(true);
-  };
-
-  const onClick = () => {
-    setShowFinal(!showFinal);
-  };
+  const router = useRouter();
 
   if (isMobile || isTablet)
     return (
-      <Box position="relative">
-        <Box height="100vh">
+      <Box display="flex" height="100vh" position="relative">
+        <Box width="100%">
           <Image
-            alt="cover"
-            src={
-              isMobile
-                ? "https://res.cloudinary.com/urlan/image/upload/v1690277250/Group_27_xeugcs.svg"
-                : "https://res.cloudinary.com/urlan/image/upload/v1690282988/Group_28_fwderw.png"
-            }
+            src="https://i.pinimg.com/564x/32/79/ed/3279ed326af863a1dfe31e922713d4af.jpg"
+            alt="bg"
+            fit="cover"
             naturalHeight={1}
             naturalWidth={1}
-            fit="cover"
           />
         </Box>
         <Box
-          height="100vh"
           position="absolute"
-          width="100%"
-          top
+          bottom
           display="flex"
-          direction="column"
+          justifyContent="center"
+          alignItems="end"
+          height="100vh"
+          width="100%"
         >
-          <Box height={76} />
-          <Flex justifyContent="around" alignItems="center" gap={2}>
-            <TapArea onTap={onShowWeather}>
-              <motion.div whileTap={{ scale: 0.9 }}>
-                <Mask
-                  width={isMobile ? 141 : 200}
-                  height={isMobile ? 180 : 260}
-                >
-                  <Image
-                    alt="weather"
-                    src="https://res.cloudinary.com/urlan/image/upload/v1690286557/weather_equlwn.png"
-                    naturalHeight={1}
-                    naturalWidth={1}
-                  />
-                </Mask>
-              </motion.div>
-              <p className={styles.text}>Weather</p>
-            </TapArea>
-
-            <TapArea onTap={onShowNews}>
-              <motion.div whileTap={{ scale: 0.9 }}>
-                <Mask
-                  width={isMobile ? 141 : 200}
-                  height={isMobile ? 180 : 260}
-                >
-                  <Image
-                    alt="news"
-                    src="https://res.cloudinary.com/urlan/image/upload/v1690286557/news_wwwjmr.png"
-                    naturalHeight={1}
-                    naturalWidth={1}
-                  />
-                </Mask>
-              </motion.div>
-              <p className={styles.text}>Daily News</p>
-            </TapArea>
-          </Flex>
-
-          <Box height={20} />
-
-          <Player />
-
-          {checkNews && checkWeather && <ReadyButton onClick={onClick} />}
+          <Box
+            paddingY={8}
+            paddingX={5}
+            justifyContent="between"
+            width="100%"
+            height="100%"
+            display="flex"
+          >
+            <Weather />
+            <Calendar />
+          </Box>
         </Box>
-        {showWeather && <WeatherModal onShowWeather={onShowWeather} />}
-        {showNews && <NewsModal onShowNews={onShowNews} />}
-        {showFinal && <FinalModal onClick={onClick} />}
       </Box>
     );
 };
