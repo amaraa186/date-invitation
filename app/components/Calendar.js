@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/router";
 import { Box, Flex, Heading, TapArea } from "gestalt";
-import { fetchWeather } from "../../utils/weatherapi";
+import { fetchWeather } from "../modules/weather/WeatherApi";
 import { useState, useEffect } from "react";
 import _ from "lodash";
 import moment from "moment";

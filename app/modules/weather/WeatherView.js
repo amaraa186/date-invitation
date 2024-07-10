@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Box, Image, Heading, Text, Flex, Button } from "gestalt";
-import { fetchWeather } from "../../../utils/WeatherApi";
+import { fetchWeather } from "../weather/WeatherApi";
 import _ from "lodash";
 
 const WeatherView = () => {

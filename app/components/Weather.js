@@ -3,7 +3,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { Box, Flex, Heading, TapArea } from "gestalt";
-import { fetchWeather } from "../../utils/weatherapi";
+import { fetchWeather } from "../modules/weather/WeatherApi";
 import _ from "lodash";
 
 const Weather = () => {
