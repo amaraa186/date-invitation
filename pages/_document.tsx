@@ -22,8 +22,8 @@ class MyDocument extends Document {
             name="twitter:description"
             content="See pictures from Next.js Conf and the After Party."
           />
-          <script src="https://cdn.tailwindcss.com"></script>
-          <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+          <script src="https://cdn.tailwindcss.com" defer></script>
+          <script src="https://code.iconify.design/3/3.1.0/iconify.min.js" defer></script>
           <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
         </Head>
         <body className="bg-black antialiased">
