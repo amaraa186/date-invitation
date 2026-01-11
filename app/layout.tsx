@@ -1,6 +1,5 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import "gestalt/dist/gestalt.css";
 
 export const metadata: Metadata = {
   title: 'Date invitation',
